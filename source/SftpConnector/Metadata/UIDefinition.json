@@ -1,0 +1,61 @@
+﻿{
+  "parameters": {
+    "SFTPConnector": {
+      "sftpServerAddress": {
+        "defaultValue": "",
+        "displayName": "Server Address",
+        "description": "Specify the SFTP Server name or IP address",
+        "tooltip": "Specify the SFTP Server name or IP address",
+        "constraints": {
+          "required": "true"
+        }
+      },
+      "sftpServerPort": {
+        "defaultValue": "22",
+        "displayName": "Server Port",
+        "description": "Specify the port on which the SFTP Server is listening",
+        "tooltip": "Specify the SFTP Server port number",
+        "constraints": {
+          "required": "false",
+          "numeric": "true"
+        }
+      },
+      "acceptAnySSHServerHostKey": {
+        "defaultValue": "false",
+        "displayName": "Accept Any SSH Server HostKey",
+        "description": "Specify true to use SSH Server HostKey to connect to the SFTP Server",
+        "tooltip": "Specify true to use SSH Server HostKey to connect to the SFTP Server",
+        "constraints": {
+          "required": "false"
+        }
+      },
+      "sSHServerHostKey": {
+        "defaultValue": "",
+        "displayName": "SSH Server HostKey",
+        "description": "Specify the SSH Server HostKey to connect to the SFTP Server",
+        "tooltip": "Specify the SSH Server HostKey to connect to the SFTP Server",
+        "constraints": {
+          "required": "false"
+        }
+      },
+      "rootFolderPath": {
+        "defaultValue": "",
+        "displayName": "Root Folder",
+        "description": "Specify a root folder path. File paths would be relative to this folder",
+        "tooltip": "Specify a root folder path",
+        "constraints": {
+          "required": "false"
+        }
+      },
+      "encryptCipher": {
+        "defaultValue": "",
+        "displayName": "Encrypt Cipher",
+        "description": "Specify the Encrypt Cipher",
+        "tooltip": "Specify the Encrypt Cipher",
+        "constraints": {
+          "required": "false"
+        }
+      }
+    }
+  }
+}

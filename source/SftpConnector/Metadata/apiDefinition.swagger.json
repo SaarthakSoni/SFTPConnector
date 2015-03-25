@@ -1,0 +1,485 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "SFTP Connector"
+  },
+  "host": "localhost:57847",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/file/{FilePath}": {
+      "get": {
+        "tags": [
+          "SFTP"
+        ],
+		"summary": "Get File",
+		"description": "Retrieves the specified file from the server.",
+        "operationId": "GetFile",
+        "consumes": [
+          
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FilePath",
+            "in": "path",
+			"description": "Specify File Path",
+            "required": true,
+			"x-ms-summary" : "File Path",
+            "type": "string"
+          },
+          {
+            "name": "FileType",
+            "in": "query",
+			"description": "Specify File Type",
+            "required": false,
+			"x-ms-summary":"The type of file: text or binary.",
+            "type": "string",
+			 "default":"Text",
+            "enum": [
+              "Text",
+              "Binary"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Get File operation",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          },
+		  "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Folder or File not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "default": {
+            "description": "Successful Get File operation",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "SFTP"
+        ],
+		"summary": "Upload File.",
+		"description": "Uploads the specified file to the server.",
+        "operationId": "UploadFile",
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "content",
+            "in": "body",
+			"description": "Specify file content",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileContent"
+            }
+          },
+          {
+            "name": "FilePath",
+            "in": "path",
+			"description": "Specify file path",
+            "required": true,
+			"x-ms-summary":"File Path",
+            "type": "string"
+          },
+          {
+            "name": "AppendIfExists",
+            "in": "query",
+			"description": "Enable or Disable 'Append If Exist'. When enabled, the data is appended to the file if it exists. When disabled, the file is overwritten if it exists",
+            "required": false,
+			"x-ms-summary":"Append If Exists",
+            "x-ms-visibility":"advanced",
+            "type": "boolean",
+			"default":false
+          },
+          {
+            "name": "TemporaryFolder",
+            "in": "query",
+			"description": "Optional. If provided, the connector will upload the file to the 'Temporary Folder Path' and once the upload is done the file will be moved to 'Folder Path'. The 'Temporary Folder Path' should be on the same physical disk as the 'Folder Path' to make sure that the move operation is atomic. Temporary folder can be used only when 'Append If Exist' property is disabled.",
+            "required": false,
+			"x-ms-summary":"Temporary Folder",
+            "x-ms-visibility":"advanced",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Upload File operation",
+            "schema": {
+              "$ref": "#/definitions/FileInfo"
+            }
+          },
+		  "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Folder not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "default": {
+            "description": "Successful Upload File operation",
+            "schema": {
+              "$ref": "#/definitions/FileInfo"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "SFTP"
+        ],
+		"summary": "Delete File",
+		"description": "Deletes the specified file from the server.",
+        "operationId": "DeleteFile",
+        "consumes": [
+          
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FilePath",
+            "in": "path",
+			"description": "Specify file path",
+            "required": true,
+			"x-ms-summary":"File Path",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Delete File operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+		  "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Folder or File not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "default": {
+            "description": "Successful Delete File operation",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/folder/{FolderPath}": {
+      "get": {
+        "tags": [
+          "SFTP"
+        ],
+		"summary": "List Files",
+		"description": "Lists the files present in a specified folder.",
+        "operationId": "ListFiles",
+        "consumes": [
+          
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "FolderPath",
+            "in": "path",
+			"description": "Specify folder path",
+            "required": true,
+			"x-ms-summary":"Folder Path",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful List Files operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FileInfo"
+              }
+            }
+          },
+		  "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Folder not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "default": {
+            "description": "Successful List Files operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FileInfo"
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/poll/folder/{FolderPath}": {
+      "get": {
+        "tags": [
+          "SFTP"
+        ],
+		"summary": "TriggerOnFileAvailable",
+		"description": "Starts the poll operation on a particular folder location. It will listen for all File created\r\n            events and callback as soon as an event is raised",
+        "operationId": "TriggerOnFileAvailable",
+        "consumes": [
+          
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "name": "triggerState",
+            "in": "query",
+			"description": "Specify Trigger State",
+            "required": true,
+            "x-ms-visibility":"internal",
+			"x-ms-scheduler-recommendation":"@coalesce(triggers()?.outputs?.body?['triggerState'], '')",
+            "type": "string"
+          },
+          {
+            "name": "FolderPath",
+            "in": "path",
+			"description": "Specify Folder Path",
+            "required": true,
+			"x-ms-summary":"Folder Path",
+            "type": "string"
+          },
+          {
+            "name": "FileMask",
+            "in": "query",
+			"description": "Specify include mask",
+            "required": false,
+			"x-ms-summary":"File Mask",
+            "x-ms-visibility":"advanced",
+            "type": "string",
+            "default": "*"
+          },
+          {
+            "name": "ExcludeFileMask",
+            "in": "query",
+			"description": "Specify exclude mask",
+            "required": false,
+			"x-ms-summary":"Exclude File Mask",
+            "x-ms-visibility":"advanced",
+            "type": "string"
+          },
+          {
+            "name": "FileType",
+            "in": "query",
+			"description": "Specify File Type",
+            "required": false,
+			"x-ms-summary":"The type of file: text or binary.",
+            "type": "string",
+			"default":"Text",
+            "enum": [
+              "Text",
+              "Binary"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Poll operation",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          },
+		   "202": {
+            "description": "Successful Poll operation but no new file present"
+          },
+		  "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Folder or File not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "default": {
+            "description": "Successful Poll operation",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "FileContent": {
+      "required": [
+        "Content"
+      ],
+      "type": "object",
+      "properties": {
+        "Content": {
+          "type": "string",
+		  "x-ms-summary":"Content"
+        },
+        "ContentTransferEncoding": {
+          "enum": [
+            "None",
+            "Base64"
+          ],
+          "type": "string",
+		  "x-ms-summary":"Content Transfer Encoding"
+        }
+      }
+    },
+    "FileInfo": {
+      "description": "Denotes the file properties",
+	  "required": [
+        "FileName",
+        "FolderPath",
+        "FilePath",
+        "ServerAddress"
+      ],
+      "type": "object",
+      "properties": {
+        "FileName": {
+          "description": "File Name",
+          "type": "string",
+		  "x-ms-summary":"File Name"
+        },
+        "FolderPath": {
+          "description": "Folder Path",
+          "type": "string",
+		  "x-ms-summary":"Folder Path"
+        },
+        "FilePath": {
+          "description": "File Path",
+          "type": "string",
+		   "x-ms-summary":"File Path"
+        },
+        "ServerAddress": {
+          "description": "Server Address",
+          "type": "string",
+		  "x-ms-summary":"Server Address"
+        }
+      }
+    },
+    "File": {
+      "description": "Get File Operation return object of File",
+      "required": [
+        "FileName",
+        "FolderPath",
+        "FilePath",
+        "ServerAddress",
+        "Content"
+      ],
+      "type": "object",
+      "properties": {
+        "FileName": {
+          "description": "File Name",
+          "type": "string",
+		  "x-ms-summary":"File Name"
+        },
+        "FolderPath": {
+          "description": "Folder Path",
+          "type": "string",
+		  "x-ms-summary":"Folder Path"
+        },
+        "FilePath": {
+          "description": "File Path",
+          "type": "string",
+		   "x-ms-summary":"File Path"
+        },
+        "ServerAddress": {
+          "description": "Server Address",
+          "type": "string",
+		  "x-ms-summary":"Server Address"
+        },
+        "Content": {
+          "type": "string",
+		  "x-ms-summary":"Content"
+        },
+        "ContentTransferEncoding": {
+          "enum": [
+            "None",
+            "Base64"
+          ],
+          "type": "string",
+		  "x-ms-summary":"Content Transfer Encoding"
+        }
+      }
+    }
+  }
+}

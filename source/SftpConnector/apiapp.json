@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/schemas/2014-11-01/apiapp.json#",
+
+    "id": "SFTPConnector",
+    "version": "1.0.0",
+    "title": "SFTP Connector",
+	"summary": "SFTP Connector lets you download from or upload files to an SFTP server.",
+    "description": "SFTP Connector lets you download from or upload files to an SFTP server.",
+    "author": "Microsoft",
+	"namespace": "microsoft.com",
+    "gateway": "2015-01-14",
+	"categories": ["protocol"],
+	"homepage": "http://go.microsoft.com/fwlink/?LinkID=525974&clcid=0x409",
+	"tags": ["sftp", "Connector"],
+	"links": [
+		{
+			"text": "Documentation",
+			"url": "http://go.microsoft.com/fwlink/?LinkID=528780&clcid=0x409"
+		},
+		{
+			"text": "License Terms",
+			"url": "http://go.microsoft.com/fwlink/?LinkID=529178&clcid=0x409"
+		}
+	],
+    "copyright": "Copyright 2015 Microsoft Azure",
+    "brandColor": "#eabd00"
+
+}
